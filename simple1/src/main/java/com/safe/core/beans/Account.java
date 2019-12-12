@@ -2,6 +2,8 @@ package com.safe.core.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class Account implements Serializable {
     private Integer id;
@@ -25,10 +27,21 @@ public class Account implements Serializable {
     private Integer count;
 
     private Integer userId;
-
+    
+    private List<Role> roleList;
+    private List<Module> moduleList;
+    private List<ListMapVo> moduleMapList;
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -115,4 +128,22 @@ public class Account implements Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+	public List<Module> getModuleList() {
+		return moduleList;
+	}
+
+	public void setModuleList(List<Module> moduleList) {
+		this.moduleList = moduleList;
+	}
+
+	public List<ListMapVo> getModuleMapList() {
+		return moduleMapList;
+	}
+
+	public void setModuleMapList(List<ListMapVo> moduleMapList) {
+		this.moduleMapList = moduleMapList;
+	}
+
+
 }

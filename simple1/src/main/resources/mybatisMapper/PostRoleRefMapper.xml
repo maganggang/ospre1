@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.safe.core.mapper.PostRoleRefMapper">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.PostRoleRef">
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="post_id" jdbcType="INTEGER" property="postId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.safe.core.beans.PostRoleRef">
+    delete from post_role_ref
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and post_id = #{postId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safe.core.beans.PostRoleRef">
+    insert into post_role_ref (role_id, post_id)
+    values (#{roleId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.PostRoleRef">
+    insert into post_role_ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

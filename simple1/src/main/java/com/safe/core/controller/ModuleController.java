@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.safe.core.beans.Authority;
 import com.safe.core.beans.Module;
+import com.safe.core.beans.ResultBean;
 import com.safe.core.service.ModuleService;
 
 @Controller
@@ -18,8 +20,11 @@ public class ModuleController {
 	private ModuleService moduleService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Module> allModule(){
-		return moduleService.selectAll();
+	public ResultBean<Module> allModule(){
+		ResultBean<Module> b=new ResultBean<Module>();
+		List<Module>  result=moduleService.selectAll();
+		b.setData(result);
+		return b;
 	}
 	@RequestMapping("/auth/{id}")
 	@ResponseBody

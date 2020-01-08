@@ -9,7 +9,7 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, desc, parent_id, createtime
+	`id`, `name`, `desc`, `parent_id`, `createtime`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,7 +27,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.safe.core.beans.Role">
-    insert into role (id, name, desc, 
+    insert into role (id, name, `desc`, 
       parent_id, createtime)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP})
@@ -79,7 +79,7 @@
         name,
       </if>
       <if test="desc != null">
-        desc,
+        `desc`,
       </if>
       <if test="parentId != null">
         parent_id,

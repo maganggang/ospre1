@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.safe.core.beans.Account;
 import com.safe.core.beans.Authority;
+import com.safe.core.beans.ResultBean;
 import com.safe.core.service.AuthorityService;
 
 @Controller
@@ -21,8 +22,11 @@ public class AuthorityController {
 	private AuthorityService authorityService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Authority> allCompany(){
-		return authorityService.selectAll();
+	public ResultBean<Authority> allAuthority(){
+		ResultBean<Authority> b=new ResultBean<Authority>();
+		List<Authority>  result=authorityService.selectAll();
+		b.setData(result);
+		return b;
 	}
 	@RequestMapping("/authority/{id}")
 	@ResponseBody

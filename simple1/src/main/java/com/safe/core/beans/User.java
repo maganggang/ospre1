@@ -16,8 +16,7 @@ public class User implements Serializable {
     private String email;
 
     private Integer postId;
-
-
+    private Post post;
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -75,5 +74,13 @@ public class User implements Serializable {
     public void setPostId(Integer postId) {
         this.postId = postId;
     }
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
 
 }

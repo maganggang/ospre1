@@ -6,14 +6,30 @@
     <result column="module_id" jdbcType="INTEGER" property="moduleId" />
     <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
   </resultMap>
-  
+  <resultMap id="BaseAuthMap" type="com.safe.core.beans.Module">
+    <id column="module_id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="icon_name" jdbcType="VARCHAR" property="iconName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+         <collection property="authorityList" ofType="com.safe.core.beans.Authority">
+    		  <result column="autho_id" jdbcType="INTEGER" property="id" />
+    		<result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    		<result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    		<result column="permiss_name" jdbcType="INTEGER" property="permissionName" />
+         </collection>
+  </resultMap>
   <sql id="baseColumnSql">
       id,module_id,permission_id
   </sql>
-  <select id="findAll" resultMap="BaseResultMap">
-      select
-      <include refid="baseColumnSql"/>
-      from authority
+  <select id="findAll" resultMap="BaseAuthMap">
+select
+a.id autho_id,b.id module_id,b.`name`,b.parent_id, b.icon_name, url,b.`desc`,
+c.id permission_id, c.`name`  permiss_name
+from authority a
+LEFT JOIN module b on a.module_id=b.id
+left join permission c on a.permission_id=c.id
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
       select

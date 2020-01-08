@@ -18,4 +18,8 @@ public interface UserMapper {
 	int updateByPrimaryKeySelective(User user);
 
 	List<User> findAll();
+
+	User selectUserInfo(Integer userId);
+
+	List<User> findAllByOrg(int orgId);
 }

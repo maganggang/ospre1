@@ -1,6 +1,7 @@
 package com.safe.core.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Permission implements Serializable {
     private Integer id;
@@ -11,7 +12,6 @@ public class Permission implements Serializable {
     private String name;
 
     private String desc;
-
     private static final long serialVersionUID = 1L;
 
     public String getPathUrl() {

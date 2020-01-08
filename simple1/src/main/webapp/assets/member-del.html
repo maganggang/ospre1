@@ -44,7 +44,14 @@
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量恢复</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
-      <table class="layui-table">
+       <script type="text/html" id="barDemo">
+   <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">查看</button>
+    <button class="layui-btn layui-btn-sm" lay-event="delete" onclick="deleteAccount(this)">删除</button>
+    <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+  </div>
+</script>
+      <table class="layui-table" id="LAY_table_user" lay-filter="useruv">
         <thead>
           <tr>
             <th>
@@ -124,9 +131,28 @@
 
     </div>
     <script>
-      layui.use('laydate', function(){
+      layui.use(['laydate','table'], function(){
         var laydate = layui.laydate;
-        
+        var table = layui.table;
+        //方法级渲染
+         table.render({
+            elem: '#LAY_table_user'
+            ,url: '/simple1/user/org/all'
+            ,cols: [[
+                {checkbox: true, fixed: true}
+                ,{field:'id', title: 'ID', width:80}
+                ,{field:'name', title: '用户名', width:100}
+                ,{field:'sex', title: '名称', width:100}
+                ,{field:'idCard', title: '手机', width:180}
+                ,{field:'email', title: 'Email', width:180}
+                ,{field:'phone', title: '日期', width:200}
+                ,{field:'opreate', title: '操作',width:220,toolbar:"#barDemo"}
+                ,{field:'postId', title: '弃用'}
+            ]]
+            ,id: 'testReload'
+            ,page: true
+            ,height: 600
+        }); 
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素

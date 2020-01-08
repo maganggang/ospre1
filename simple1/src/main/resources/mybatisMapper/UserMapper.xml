@@ -10,14 +10,53 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
   </resultMap>
+   <resultMap id="UserInfoMap" type="com.safe.core.beans.User">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <association property="post" javaType="com.safe.core.beans.Post">
+        <id column="post_id" jdbcType="INTEGER" property="id" />
+    	<result column="post_name" jdbcType="VARCHAR" property="name" />
+    	<result column="post_desc" jdbcType="VARCHAR" property="desc" />
+    	<result column="post_createtime" jdbcType="TIMESTAMP" property="createtime" />
+    	<association property="organization" javaType="com.safe.core.beans.Organization">
+    	    <id column="org_id" jdbcType="INTEGER" property="id" />
+    		<result column="org_type" jdbcType="TINYINT" property="type" />
+    		<result column="org_name" jdbcType="VARCHAR" property="name" />
+    	</association>
+    </association>
+  </resultMap>
   <sql id="baseColumnSql">
       id, name, sex, id_card, 
-      phone, email, post_id,
+      phone, email, post_id
   </sql>
-  <select id="findAll">
+  <select id="findAll" resultMap="BaseResultMap" >
       select 
       <include refid="baseColumnSql"/>
       from user
+  </select>
+  <select id="selectUserInfo" resultMap="UserInfoMap"  parameterType="java.lang.Integer" >
+      select a.id,a.name,a.sex,a.id_card,a.phone,a.email,a.post_id,b.org_id,b.name post_name,
+		b.desc post_desc,b.createtime post_createtime,c.name org_name
+ 		from user a
+		left join post b on b.id=a.post_id
+		left join organization c on c.id=b.org_id
+		where a.id=#{userId}
+  </select>
+  <select id="findAllByOrg" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     select 
+ 	a.id, a.name, a.sex, a.id_card, 
+      a.phone, a.email, a.post_id
+	 from `user` a
+	left join post b on a.post_id=b.id
+	where b.org_id in (
+	select id from organization
+	where FIND_IN_SET(id,getChildrenOrg(#{orgId}))
+	)
+
   </select>
   <select id="selectByPremaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
       select 

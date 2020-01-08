@@ -21,22 +21,22 @@
 	<!-- 顶部开始 -->
 	<div class="container">
 		<div class="logo">
-			<a href="./index.html">X-admin v2.0</a>
+			<a href="./index.html">飞翼网络科技</a>
 		</div>
 		<div class="left_open">
 			<i title="展开左侧栏" class="iconfont">&#xe699;</i>
 		</div>
 		<ul class="layui-nav left fast-add" lay-filter="">
-			<li class="layui-nav-item"><a href="javascript:;">+新增</a>
+			<li class="layui-nav-item"><a href="javascript:;">相关</a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
-						<a onclick="x_admin_show('资讯','http://www.baidu.com')"><i
-							class="iconfont">&#xe6a2;</i>资讯</a>
+						<a onclick="x_admin_show('资讯','./company-info.html')">
+						<i class="iconfont">&#xe6a2;</i>资讯</a>
 					</dd>
 					<dd>
-						<a onclick="x_admin_show('图片','http://www.baidu.com')"><i
-							class="iconfont">&#xe6a8;</i>图片</a>
+						<a onclick="x_admin_show('图片','./company-image.html')">
+						<i class="iconfont">&#xe6a8;</i>图片</a>
 					</dd>
 					<dd>
 						<a onclick="x_admin_show('用户','http://www.baidu.com')"><i
@@ -45,7 +45,8 @@
 				</dl></li>
 		</ul>
 		<ul class="layui-nav right" lay-filter="">
-			<li class="layui-nav-item"><a href="javascript:;" id="username">admin</a>
+			<li class="layui-nav-item">
+			<a href="javascript:;" id="username">admin</a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
@@ -59,6 +60,7 @@
 					</dd>
 				</dl></li>
 			<li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
+			<li class="layui-nav-item to-index"><a href="/">注册</a></li>
 		</ul>
 
 	</div>
@@ -68,7 +70,7 @@
 	<div class="left-nav">
 		<div id="side-nav">
 			<ul id="nav">
-				<li><a href="javascript:;"> <i class="iconfont">&#xe6b8;</i>
+				<!-- <li><a href="javascript:;"> <i class="iconfont">&#xe6b8;</i>
 						<cite>会员管理</cite> <i class="iconfont nav_right">&#xe697;</i>
 				</a>
 					<ul class="sub-menu">
@@ -176,7 +178,7 @@
 						<li><a _href="unicode.html"> <i class="iconfont">&#xe6a7;</i>
 								<cite>图标对应字体</cite>
 						</a></li>
-					</ul></li>
+					</ul></li> -->
 			</ul>
 		</div>
 	</div>
@@ -250,7 +252,7 @@
           					var children2=children1[j].children;
           					if(children2&&children2.length>0){
           					var ulchildren2=$(" <ul class='sub-menu'></ul>")
-          						for(var k=0;k<children1.length;k++){
+          						for(var k=0;k<children2.length;k++){
                   					var lichildren2=$("<li></li>");
                   					var achildren2=$("<a></a>");
                   					var ichildren2=$(" <i class='iconfont'></i>");

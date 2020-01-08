@@ -43,7 +43,10 @@
         <servlet-name>DruidStatView</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
-    
+  <!--   自定义监听会话 -->
+    <listener>
+	    <listener-class>com.safe.core.filter.SessionListener</listener-class>		
+</listener>
     <!-- 前端控制器 -->
     <servlet>
         <servlet-name>springmvc</servlet-name>

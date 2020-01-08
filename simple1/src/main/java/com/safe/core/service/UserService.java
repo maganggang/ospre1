@@ -16,4 +16,8 @@ public interface UserService {
 
 	User insert(User user);
 
+	User selectUserInfo(Integer userId);
+
+	List<User> findAllByOrg(int parseInt);
+
 }

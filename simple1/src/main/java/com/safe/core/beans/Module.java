@@ -17,6 +17,7 @@ public class Module implements Serializable {
     private String desc;
  
     private List<Permission> permissionList;
+    private List<Authority> authorityList; 
     private static final long serialVersionUID = 1L;
 
     public List<Permission> getPermissionList() {
@@ -74,4 +75,12 @@ public class Module implements Serializable {
     public void setDesc(String desc) {
         this.desc = desc == null ? null : desc.trim();
     }
+
+	public List<Authority> getAuthorityList() {
+		return authorityList;
+	}
+
+	public void setAuthorityList(List<Authority> authorityList) {
+		this.authorityList = authorityList;
+	}
 }

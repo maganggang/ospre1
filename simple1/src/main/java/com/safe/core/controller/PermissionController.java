@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.safe.core.beans.Permission;
+import com.safe.core.beans.ResultBean;
+import com.safe.core.beans.Role;
 import com.safe.core.service.PermissionService;
 
 @Controller
@@ -18,8 +20,11 @@ public class PermissionController {
 	private PermissionService permissionService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Permission> allPermission(){
-		return permissionService.selectAll();
+	public ResultBean<Permission> allPermission(){
+		ResultBean<Permission> b=new ResultBean<Permission>();
+		List<Permission> sList= permissionService.selectAll();
+		b.setData(sList);
+		return b;
 	}
 	@RequestMapping("/permission/{id}")
 	@ResponseBody

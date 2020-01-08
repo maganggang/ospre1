@@ -44,4 +44,14 @@ private UserMapper userMapper;
 		return null;
 	}
 
+	@Override
+	public User selectUserInfo(Integer userId) {
+		return userMapper.selectUserInfo(userId);
+	}
+
+	@Override
+	public List<User> findAllByOrg(int orgId) {
+		return userMapper.findAllByOrg(orgId);
+	}
+
 }

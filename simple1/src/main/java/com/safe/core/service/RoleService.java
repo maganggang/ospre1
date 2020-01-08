@@ -16,4 +16,6 @@ public interface RoleService {
 
 	Role insert(Role role);
 
+	Role addRole(Role role);
+
 }

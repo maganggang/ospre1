@@ -47,8 +47,8 @@
       </xblock>
      <script type="text/html" id="barDemo">
    <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-    <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    <button class="layui-btn layui-btn-sm" lay-event="add">查看</button>
+    <button class="layui-btn layui-btn-sm" lay-event="delete" onclick="deleteAccount(this)">删除</button>
     <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
   </div>
 </script>
@@ -117,7 +117,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id', title: 'ID', width:80}
-                ,{field:'name', title: '用户名', width:100}
+                ,{field:'username', title: '用户名', width:100}
                 ,{field:'nickname', title: '名称', width:100}
                 ,{field:'mobile', title: '手机', width:180}
                 ,{field:'email', title: 'Email', width:180}
@@ -185,6 +185,13 @@
             layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
+      }
+      function deleteAccount(obj){
+    	  console.log($(obj).parent().parent().parent().parent().find("td[data-field='id'] div").html());
+          var id=$(obj).parent().parent().parent().parent().find("td[data-field='id'] div").html();
+    	  $.get('/simple1/account/delete/'+id,function (result) {
+        	  console.log(result);
+          })
       }
     </script>
     <script>var _hmt = _hmt || []; (function() {

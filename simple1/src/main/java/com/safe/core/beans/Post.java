@@ -13,7 +13,7 @@ public class Post implements Serializable {
     private String desc;
 
     private Date createtime;
-
+    private Organization organization;
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -55,4 +55,12 @@ public class Post implements Serializable {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 }

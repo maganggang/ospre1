@@ -9,6 +9,13 @@
     insert into authority_role_ref (authority_id, role_id)
     values (#{authorityId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
   </insert>
+    <insert id="insertBatch" >
+	insert into authority_role_ref (authority_id, role_id)  values
+	<foreach collection="authorityIds" item="item" index="index" separator=",">
+          (#{item}, #{roleId})
+        </foreach>
+    
+  </insert>
   <insert id="insertSelective" parameterType="com.safe.core.beans.AuthorityRoleRef">
     insert into authority_role_ref
     <trim prefix="(" suffix=")" suffixOverrides=",">

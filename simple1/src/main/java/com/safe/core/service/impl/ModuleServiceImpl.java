@@ -13,8 +13,8 @@ public class ModuleServiceImpl implements ModuleService{
 	@Autowired
 private ModuleMapper moduleMapper;
 	
-	public List<Module> selectAll() {
-		return moduleMapper.findAll();
+	public List<Module> selectAll(Module module) {
+		return moduleMapper.findAll(module);
 	}
 
 	public Module selectByPrimaryKey(Integer id) {

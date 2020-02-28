@@ -19,5 +19,5 @@ public interface ModuleMapper {
 
 	int insertSelectiveReturnKey(Module module);
 
-	List<Module> findAll();
+	List<Module> findAll(Module module);
 }

@@ -63,4 +63,5 @@ public class Post implements Serializable {
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
+
 }

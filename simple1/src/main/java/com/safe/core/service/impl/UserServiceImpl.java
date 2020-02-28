@@ -12,8 +12,8 @@ import com.safe.core.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 private UserMapper userMapper;
-	public List<User> selectAll() {
-		return userMapper.findAll();
+	public List<User> selectAll(User user) {
+		return userMapper.findAll(user);
 	}
 
 	public User selectByPrimaryKey(Integer id) {
@@ -50,8 +50,13 @@ private UserMapper userMapper;
 	}
 
 	@Override
-	public List<User> findAllByOrg(int orgId) {
-		return userMapper.findAllByOrg(orgId);
+	public List<User> findAllByOrg(int orgId,User user) {
+		return userMapper.findAllByOrg(orgId,user);
+	}
+
+	@Override
+	public Boolean deleteList(List<String> ids) {
+		return userMapper.deletePrimaryIds(ids);
 	}
 
 }

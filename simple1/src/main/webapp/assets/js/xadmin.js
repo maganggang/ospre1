@@ -1,3 +1,13 @@
+ //url的参数
+    var request = (function (){
+        var obj = {};
+        var arr = window.location.search.slice(1).split("&");
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var nv = arr[i].split("=");
+            obj[unescape(nv[0]).toLowerCase()] = unescape(nv[1]);
+        }
+        return obj;
+    })()
 $(function () {
     //加载弹出层
     layui.use(['form','element'],
@@ -5,7 +15,7 @@ $(function () {
         layer = layui.layer;
         element = layui.element;
     });
-
+  //  
     //触发事件
   var tab = {
         tabAdd: function(title,url,id){
@@ -32,20 +42,19 @@ $(function () {
 
     tableCheck = {
         init:function  () {
-            $(".layui-form-checkbox").click(function(event) {
-                if($(this).hasClass('layui-form-checked')){
-                    $(this).removeClass('layui-form-checked');
-                    if($(this).hasClass('header')){
-                        $(".layui-form-checkbox").removeClass('layui-form-checked');
-                    }
-                }else{
-                    $(this).addClass('layui-form-checked');
-                    if($(this).hasClass('header')){
-                        $(".layui-form-checkbox").addClass('layui-form-checked');
-                    }
-                }
-                
-            });
+		            $(".layui-form-checkbox").click(function(event) {
+		      if($(this).hasClass('layui-form-checked')){
+		                	$(this).removeClass('layui-form-checked');
+		                    if($(this).hasClass('header')){
+							                        $(".layui-form-checkbox").removeClass('layui-form-checked');
+					}
+				                }else{
+				                    $(this).addClass('layui-form-checked');
+				                    if($(this).hasClass('header')){
+				                        $(".layui-form-checkbox").addClass('layui-form-checked');
+				                    }
+		                }              
+		            });
         },
         getData:function  () {
             var obj = $(".layui-form-checked").not('.header');
@@ -58,7 +67,7 @@ $(function () {
     }
 
     //开启表格多选
-    tableCheck.init();
+   // tableCheck.init();
       
 
     $('.container .left_open i').click(function(event) {

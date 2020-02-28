@@ -36,6 +36,15 @@
               </div>
           </div>
           <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                 昵称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="nickname"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
               <label for="phone" class="layui-form-label">
                   <span class="x-red">*</span>手机
               </label>
@@ -44,7 +53,7 @@
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>将会成为您唯一的登入名
+                  <span class="x-red">*</span>手机号
               </div>
           </div>
           <div class="layui-form-item">
@@ -102,7 +111,6 @@
             $ = layui.jquery;
           var form = layui.form
           ,layer = layui.layer;
-        
           //自定义验证规则
           form.verify({
             nikename: function(value){
@@ -128,6 +136,7 @@
             	  if(result.id){
             		   layer.alert("增加成功", {icon: 6},function () {
                            // 获得frame索引
+                         alert(window.name);
                            var index = parent.layer.getFrameIndex(window.name);
                            //关闭当前frame
                            parent.layer.close(index);

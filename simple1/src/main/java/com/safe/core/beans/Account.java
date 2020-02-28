@@ -27,7 +27,9 @@ public class Account implements Serializable {
     private Integer count;
 
     private Integer userId;
-    
+    private Integer postId;
+    private Integer orgId;
+    private Integer creatorId;
     private List<Role> roleList;
     private List<Module> moduleList;
     private List<ListMapVo> moduleMapList;
@@ -143,6 +145,30 @@ public class Account implements Serializable {
 
 	public void setModuleMapList(List<ListMapVo> moduleMapList) {
 		this.moduleMapList = moduleMapList;
+	}
+
+	public Integer getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Integer creatorId) {
+		this.creatorId = creatorId;
+	}
+
+	public Integer getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Integer postId) {
+		this.postId = postId;
+	}
+
+	public Integer getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
 	}
 
 

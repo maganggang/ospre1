@@ -2,6 +2,7 @@ package com.safe.core.mapper;
 
 import java.util.List;
 
+import com.safe.core.beans.ListMapVo;
 import com.safe.core.beans.Post;
 
 public interface PostMapper {
@@ -20,4 +21,6 @@ public interface PostMapper {
 	int insertSelectiveReturnKey(Post post);
 
 	List<Post> findAll();
+
+	List<ListMapVo> findTreeAll();
 }

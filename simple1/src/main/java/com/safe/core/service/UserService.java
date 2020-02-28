@@ -6,7 +6,7 @@ import com.safe.core.beans.User;
 
 public interface UserService {
 
-	List<User> selectAll();
+	List<User> selectAll(User user);
 
 	User selectByPrimaryKey(Integer id);
 
@@ -18,6 +18,8 @@ public interface UserService {
 
 	User selectUserInfo(Integer userId);
 
-	List<User> findAllByOrg(int parseInt);
+	List<User> findAllByOrg(int orgId, User user);
+
+	Boolean deleteList(List<String> ids);
 
 }

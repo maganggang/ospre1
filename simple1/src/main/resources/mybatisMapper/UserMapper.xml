@@ -9,6 +9,7 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
    <resultMap id="UserInfoMap" type="com.safe.core.beans.User">
     <result column="id" jdbcType="INTEGER" property="id" />
@@ -17,6 +18,7 @@
     <result column="id_card" jdbcType="VARCHAR" property="idCard" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <association property="post" javaType="com.safe.core.beans.Post">
         <id column="post_id" jdbcType="INTEGER" property="id" />
     	<result column="post_name" jdbcType="VARCHAR" property="name" />
@@ -31,12 +33,20 @@
   </resultMap>
   <sql id="baseColumnSql">
       id, name, sex, id_card, 
-      phone, email, post_id
+      phone, email, post_id,createtime
   </sql>
-  <select id="findAll" resultMap="BaseResultMap" >
+  <select id="findAll" resultMap="BaseResultMap" parameterType="com.safe.core.beans.User">
       select 
       <include refid="baseColumnSql"/>
       from user
+      <where>
+              <if test="name!= null and name!=''">
+       			name like CONCAT('%',#{name},'%') 
+          </if>
+          <if test="startTime!=null and endTime!=null">
+              createtime between #{startTime} and #{endTime}
+          </if>
+      </where>
   </select>
   <select id="selectUserInfo" resultMap="UserInfoMap"  parameterType="java.lang.Integer" >
       select a.id,a.name,a.sex,a.id_card,a.phone,a.email,a.post_id,b.org_id,b.name post_name,
@@ -46,7 +56,7 @@
 		left join organization c on c.id=b.org_id
 		where a.id=#{userId}
   </select>
-  <select id="findAllByOrg" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="findAllByOrg" resultMap="BaseResultMap" >
      select 
  	a.id, a.name, a.sex, a.id_card, 
       a.phone, a.email, a.post_id
@@ -56,9 +66,14 @@
 	select id from organization
 	where FIND_IN_SET(id,getChildrenOrg(#{orgId}))
 	)
-
+  <if test="user.name!= null and user.name!=''">
+       			and a.name like CONCAT('%',#{user.name},'%') 
+          </if>
+          <if test="user.startTime!=null and user.endTime!=null">
+             and  a.createtime between #{user.startTime} and #{user.endTime}
+          </if>
   </select>
-  <select id="selectByPremaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
       select 
       <include refid="baseColumnSql"/>
       from user
@@ -168,30 +183,37 @@
       </if>
     </trim>
   </insert>
-  <delete id="deleteByPremaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
       delete from user
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deletePrimaryIds" parameterType="java.lang.String">
+      delete from user
+    where id in 
+    <foreach collection="ids" close=")" index="index" open="(" item="item" separator=",">
+        #{item}
+    </foreach>
   </delete>
    <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.User">
     update user
     <set>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        name=#{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        #{sex,jdbcType=BIT},
+        sex=#{sex,jdbcType=BIT},
       </if>
       <if test="idCard != null">
-        #{idCard,jdbcType=VARCHAR},
+       id_card= #{idCard,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
+        phone=#{phone,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
-        #{email,jdbcType=VARCHAR},
+       email= #{email,jdbcType=VARCHAR},
       </if>
       <if test="postId != null">
-        #{postId,jdbcType=INTEGER},
+       post_id= #{postId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

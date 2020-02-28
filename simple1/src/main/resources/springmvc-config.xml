@@ -12,7 +12,23 @@
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->  
+    <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>  
 
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="mappingJackson2HttpMessageConverter" /><!-- json转换器 -->  
+            </list>  
+        </property>  
+    </bean> 
     <!-- 扫描路径 -->
     <context:component-scan base-package="com.safe.core">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -20,8 +36,8 @@
 
     <!-- 配置根视图 -->
     <mvc:view-controller path="/" view-name="index" />
-	<mvc:annotation-driven>
-        <!-- 处理responseBody 里面日期类型 -->  
+	 <mvc:annotation-driven>
+    <!--     处理responseBody 里面日期类型   -->
         <mvc:message-converters>  
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
                 <property name="objectMapper">  
@@ -34,8 +50,8 @@
                     </bean>  
                 </property>  
             </bean>  
-        </mvc:message-converters>  
-    </mvc:annotation-driven>
+        </mvc:message-converters> 
+    </mvc:annotation-driven> 
     <!-- 激活基于注解的配置 -->
     <mvc:annotation-driven>
         <!-- json返回时默认的转换器，如果不需要返回json結果，可以不用配置 -->
@@ -43,7 +59,6 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
     <!-- 静态资源配置 -->
     <mvc:resources location="/assets/" mapping="/assets/**"></mvc:resources>
 
@@ -57,5 +72,14 @@
     <!-- 文件上传大小限定，如果项目中没有文件上传功能可以不用配置 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760" />
+        <property name="maxInMemorySize" value="4096" />
+     <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
+<!-- 拦截器 -->
+
+<!-- 可以同时使用多个拦截器，在这里引入拦截器 JAVA文件 -->
+		<mvc:interceptors> 
+		<bean class="com.safe.core.filter.SessionInterceptor"/> 
+		</mvc:interceptors>
+
 </beans>

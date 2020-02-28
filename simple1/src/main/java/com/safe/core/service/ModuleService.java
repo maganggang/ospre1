@@ -6,7 +6,7 @@ import com.safe.core.beans.Module;
 
 public interface ModuleService {
 
-	List<Module> selectAll();
+	List<Module> selectAll(Module module);
 
 	Module selectByPrimaryKey(Integer id);
 

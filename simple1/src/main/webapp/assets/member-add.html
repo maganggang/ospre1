@@ -13,6 +13,7 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+     <script src="./lib/layui/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -23,6 +24,7 @@
   <body>
     <div class="x-body layui-anim layui-anim-up">
         <form class="layui-form">
+        <input type="hidden" name="id" >
           <div class="layui-form-item">
               <label for="L_email" class="layui-form-label">
                   <span class="x-red">*</span>邮箱
@@ -32,62 +34,141 @@
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>将会成为您唯一的登入名
+                  <span class="x-red">*</span>你的邮箱
               </div>
           </div>
           <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">
-                  <span class="x-red">*</span>昵称
+                  <span class="x-red">*</span>性名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
+                  <input type="text" id="L_username" name="name" required="" lay-verify="nikename"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>密码
+                  <span class="x-red">*</span>身份证号码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                  <input type="text" id="L_pass" name="idCard" required="" lay-verify="pass"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
-                  6到16个字符
+                 18个字符
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>确认密码
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>手机号
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                  <input type="text" id="L_pass" name="phone" required="" 
                   autocomplete="off" class="layui-input">
               </div>
+              <div class="layui-form-mid layui-word-aux">
+                 18个字符
+              </div>
           </div>
+	             <div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+					<input type="radio" name="sex"  value="1" title="男">
+					<input type="radio" name="sex"  value="0" title="女">
+				</div>
+				</div>
+          <div class="layui-form-item">
+          	<label class="layui-form-label">岗位</label>
+          	<div class="layui-input-block">
+          	<input type="text" id="orgPostTree" lay-filter="tree" name="postId"class="layui-input">
+		  <!--   <select name="postId" lay-verify="" lay-filter="test" id="treeselecttest">
+		        <option value="4">请选择一个岗位</option>
+		        <option value="1">北京</option>
+		        <option value="2">上海</option>
+		        <option value="3">杭州</option>
+		    </select> -->
+		    </div>
+		</div>
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+              <button id="submitBtn" class="layui-btn" lay-filter="add" lay-submit="">
+                 保存
               </button>
           </div>
       </form>
     </div>
     <script>
-        layui.use(['form','layer'], function(){
+   var id=request.id;
+  var editType=request.edittype;
+        layui.use(['form','layer','tree','treeSelect'], function(){
             $ = layui.jquery;
           var form = layui.form
           ,layer = layui.layer;
-        
+          //初始岗位组织渲染
+           var treeSelect= layui.treeSelect;
+           var tree = layui.tree;
+           treeSelect.render({
+               // 选择器
+               elem: '#orgPostTree',
+               data:'/simple1/post/tree/org',
+               // 异步加载方式：get/post，默认get
+               type: 'get',
+               placeholder: '请选择岗位',
+               search: true,
+               click: function(d){
+                   console.log(d);
+               },
+               success: function (d) {
+                   console.log(d);
+               }
+           });
+           
+          if(id){
+        	  $("input[name='id']").val(id);
+        	  console.log(request);
+        	  if(editType&&editType==1){
+        		  
+        	  }else{
+        	  $("#submitBtn").remove();
+        	  }
+          //数据渲染
+      		$.ajax({
+              	url:'/simple1/user/user/'+id,
+              	type:'get',
+              	datatype:"json",
+              	success:function(result){
+              		console.log("返回值在",result);
+              		if(result&&result.id){
+              			for(x in result){
+              				if($("input[name='"+x+"'][type!='radio']").length>0){
+              					$("input[name='"+x+"']").val(result[x]);
+              				}else if(x=="postId"){
+              					//$("select[name='"+x+"']").val(result[x]);
+              					console.log(result[x]);
+              					 treeSelect.checkNode('tree', result[x]);
+              				}else if($("input[name='"+x+"'][type='radio']").length>0){
+              					if(result[x]){
+              						 $("input[name='"+x+"'][type='radio'][value='1']").attr("checked",true);
+              					}else{
+              						 $("input[name='"+x+"'][type='radio'][value='0']").attr("checked", true);
+              					}
+              				}
+              			}
+              			form.render();
+              		}
+              		
+              	}
+              })
+         }
           //自定义验证规则
           form.verify({
             nikename: function(value){
-              if(value.length < 5){
-                return '昵称至少得5个字符啊';
+              if(value.length < 2){
+                return '昵称至少得2个字符啊';
               }
             }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,pass: [/(.+){18}$/, '身份证必须18位']
             ,repass: function(value){
                 if($('#L_pass').val()!=$('#L_repass').val()){
                     return '两次密码不一致';
@@ -98,13 +179,51 @@
           //监听提交
           form.on('submit(add)', function(data){
             console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
+            if(!id){
+            	$.ajax({
+                	url:'/simple1/user/insert',
+                	type:'post',
+                	datatype:"json",
+                	data:data.field,
+                	success:function(result){
+                		console.log("返回值在",result);
+                		if(result&&result.id){
+                			  layer.alert("增加成功", {icon: 6},function () {
+                	                // 获得frame索引
+                	                var index = parent.layer.getFrameIndex(window.name);
+                	                //关闭当前frame
+                	                parent.layer.close(index);
+                	                parent.location.reload(true);
+                	            });
+                		}
+                		
+                	}
+                })
+            }else{
+            	data.field.id=id;
+            	console.log(data.field);
+            	$.ajax({
+                	url:'/simple1/user/update',
+                	type:'post',
+                	datatype:"json",
+                	data:data.field,
+                	beforeSend:function(){
+                		return true;
+                	},
+                	success:function(result){
+                		console.log("返回值在",result);
+                		if(result&&result.id){
+                			  layer.alert("修改成功", {icon: 6},function () {
+                	                // 获得frame索引
+                	                var index = parent.layer.getFrameIndex(window.name);
+                	                //关闭当前frame
+                	                parent.layer.close(index);
+                	                parent.location.reload(true);
+                	            });
+                		}
+                	}
+                })
+            }
             return false;
           });
           

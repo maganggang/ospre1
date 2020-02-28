@@ -10,7 +10,11 @@ public class SessionUtils {
 		if(SessionListener.sessionContext.getSessionMap().get(userid)!=null){
 			HttpSession userSession=(HttpSession)SessionListener.sessionContext.getSessionMap().get(userid);
 			//注销在线用户
-			userSession.invalidate();			
+			    if (session.isNew()) {
+			    	userSession.invalidate();
+			       //session无效，在这里进行页面跳转，返回到登录页面
+			    }
+						
 			SessionListener.sessionContext.getSessionMap().remove(userid);
 			//清除在线用户后，更新map,替换map sessionid
 			SessionListener.sessionContext.getSessionMap().remove(session.getId());	

@@ -1,8 +1,9 @@
 package com.safe.core.beans;
 
 import java.io.Serializable;
+import java.sql.Date;
 
-public class User implements Serializable {
+public class User  extends TimeBean implements Serializable{
     private Integer id;
 
     private String name;
@@ -14,7 +15,7 @@ public class User implements Serializable {
     private String phone;
 
     private String email;
-
+    private Date createtime;
     private Integer postId;
     private Post post;
     private static final long serialVersionUID = 1L;
@@ -81,6 +82,14 @@ public class User implements Serializable {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 }

@@ -31,7 +31,7 @@
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
-						<a onclick="x_admin_show('资讯','./company-info.html')">
+						<a onclick="x_admin_show('资讯','./canvas.html')">
 						<i class="iconfont">&#xe6a2;</i>资讯</a>
 					</dd>
 					<dd>
@@ -39,28 +39,28 @@
 						<i class="iconfont">&#xe6a8;</i>图片</a>
 					</dd>
 					<dd>
-						<a onclick="x_admin_show('用户','http://www.baidu.com')"><i
-							class="iconfont">&#xe6b8;</i>用户</a>
+						<a onclick="x_admin_show('我的','./my-info.html')"><i
+							class="iconfont">&#xe6b8;</i>我的</a>
 					</dd>
 				</dl></li>
 		</ul>
 		<ul class="layui-nav right" lay-filter="">
-			<li class="layui-nav-item">
-			<a href="javascript:;" id="username">admin</a>
+			<li class="layui-nav-item" id="myInfo">
+			<a href="javascript:;" id="username">我的</a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
-						<a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a>
+						<a onclick="x_admin_show('个人信息','./my-account.html?id=1')">个人信息</a>
 					</dd>
 					<dd>
-						<a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a>
+						<a href="./login.jsp">切换帐号</a>
 					</dd>
 					<dd>
-						<a href="./login.html">退出</a>
+						<a id="logout">退出</a>
 					</dd>
 				</dl></li>
-			<li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
-			<li class="layui-nav-item to-index"><a href="/">注册</a></li>
+			<li class="layui-nav-item to-index"><a href="/simple1">前台首页</a></li>
+			<li class="layui-nav-item to-index" id="myRegist"><a href="/simple1">注册</a></li>
 		</ul>
 
 	</div>
@@ -215,6 +215,28 @@
             layer = layui.layer;
             element = layui.element;
         });
+        $.get('/simple1/account/myInfo',function(data){
+        	console.log("this is a user",data);
+        	if(data&&data.nickname){
+        		$("#myInfo").show();
+        		$("#username").html(data.nickname);
+        		$("#myRegist").hide();
+        	}else{
+        		$("#myInfo").hide();
+        		$("#myRegist").show();
+        	}
+        });
+    	$("#logout").click(function(){
+    		$.get('/simple1/account/logout',function(data){
+    			if(data&&data=="ok"){
+    				 layer.msg("退出",function(){
+                         location.href='/simple1'
+                     }); 
+    			}else{
+    				  location.href='#'
+    			}
+    		});
+    	})
         $.get('/simple1/authority/selectMyAuth', function (result) {
           	console.log(result);
           	if(result&&result.moduleMapList){

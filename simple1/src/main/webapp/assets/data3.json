@@ -1,0 +1,35 @@
+[
+	{
+	"orgId":1,
+	"id":1,
+	"name":"董事长",
+	"open": true,
+	"children":[
+					{
+					"orgId":2,
+					"id":2,
+					"orgParentId":1,
+					"open": true,
+					"name":"总经理",
+					"children":[
+									{
+									"orgId":3,
+									"id":3,
+									"orgParentId":2,
+									"name":"项目经理",
+									"orgName":"总公司的部门项目"
+									}
+									],
+					"orgName":"总公司的部门"
+						},
+						{
+						"orgId":4,
+						"id":4,
+						"orgParentId":1,
+						"name":"产品经理",
+						"orgName":"总公司的项目"
+						}],
+						"orgName":"总公司公司"
+						}
+	
+	]

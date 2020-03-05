@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.safe.core.mapper.AuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.Authority">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+  </resultMap>
+  <resultMap id="BaseAuthMap" type="com.safe.core.beans.Module">
+    <id column="module_id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="icon_name" jdbcType="VARCHAR" property="iconName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+         <collection property="authorityList" ofType="com.safe.core.beans.Authority">
+    		  <result column="autho_id" jdbcType="INTEGER" property="id" />
+    		<result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    		<result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    		<result column="permiss_name" jdbcType="INTEGER" property="permissionName" />
+         </collection>
+  </resultMap>
+  <sql id="baseColumnSql">
+      id,module_id,permission_id
+  </sql>
+  <select id="findAll" resultMap="BaseAuthMap">
+select
+a.id autho_id,b.id module_id,b.`name`,b.parent_id, b.icon_name, url,b.`desc`,
+c.id permission_id, c.`name`  permiss_name
+from authority a
+LEFT JOIN module b on a.module_id=b.id
+left join permission c on a.permission_id=c.id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+      <include refid="baseColumnSql"/>
+      from authority
+      where id=#{id}
+  </select>
+  <insert id="insert" parameterType="com.safe.core.beans.Authority">
+    insert into authority (id, module_id, permission_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.Authority">
+    insert into authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="moduleId != null">
+        module_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id"  parameterType="com.safe.core.beans.Authority">
+    insert into authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="moduleId != null">
+        module_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+<update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Account">
+    update authority
+    <set>
+      <if test="moduleId != null">
+        module_id=#{moduleId}
+      </if>
+      <if test="permissionId != null">
+        permission_id=#{permissionId}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from authority
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Account">
+    update authority
+    set  module_id=#{moduleId},
+       permission_id=#{permissionId}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

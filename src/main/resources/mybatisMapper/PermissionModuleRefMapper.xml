@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.safe.core.mapper.PermissionModuleRefMapper">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.PermissionModuleRef">
+    <id column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    <id column="module_id" jdbcType="INTEGER" property="moduleId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.safe.core.beans.PermissionModuleRef">
+    delete from permission_module_ref
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+      and module_id = #{moduleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safe.core.beans.PermissionModuleRef">
+    insert into permission_module_ref (permission_id, module_id)
+    values (#{permissionId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.PermissionModuleRef">
+    insert into permission_module_ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="moduleId != null">
+        module_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
